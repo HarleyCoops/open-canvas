@@ -14,7 +14,7 @@ export const rewriteCodeArtifactTheme = async (
   state: typeof OpenCanvasGraphAnnotation.State
 ): Promise<OpenCanvasGraphReturnType> => {
   const smallModel = new ChatOpenAI({
-    model: "gpt-4o-mini",
+    model: "o1-preview-2024-09-12",
     temperature: 0.5,
   });
 

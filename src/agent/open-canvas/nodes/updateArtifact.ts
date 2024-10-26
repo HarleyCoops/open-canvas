@@ -15,7 +15,7 @@ export const updateArtifact = async (
   config: LangGraphRunnableConfig
 ): Promise<OpenCanvasGraphReturnType> => {
   const smallModel = new ChatOpenAI({
-    model: "gpt-4o",
+    model: "o1-preview-2024-09-12",
     temperature: 0,
   });
 
