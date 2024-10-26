@@ -245,7 +245,7 @@ const ThreadWelcome: FC<ThreadWelcomeProps> = (props: ThreadWelcomeProps) => {
             <AvatarFallback>LC</AvatarFallback>
           </Avatar>
           <p className="mt-4 text-lg font-medium">
-            What would you like to write today?
+            What can AdvisorX AI help you write today?
           </p>
           <div className="mt-8 w-full">
             <QuickStartButtons
