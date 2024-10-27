@@ -92,7 +92,7 @@ export function Signup() {
               alt="LangChain Logo"
               className="rounded-full"
             />
-            Open Canvas
+            AdvisorX
           </div>
         </div>
         <div className="lg:p-8">
@@ -114,24 +114,6 @@ export function Signup() {
                 There was an error creating your account. Please try again.
               </p>
             )}
-            {/* No TOS or privacy policy atm. */}
-            {/* <p className="px-8 text-center text-sm text-muted-foreground">
-              By clicking continue, you agree to our{" "}
-              <Link
-                href="/terms"
-                className="underline underline-offset-4 hover:text-primary"
-              >
-                Terms of Service
-              </Link>{" "}
-              and{" "}
-              <Link
-                href="/privacy"
-                className="underline underline-offset-4 hover:text-primary"
-              >
-                Privacy Policy
-              </Link>
-              .
-            </p> */}
           </div>
         </div>
       </div>

@@ -92,7 +92,7 @@ export function Login() {
               alt="LangChain Logo"
               className="rounded-full"
             />
-            Open Canvas
+            AdvisorX
           </div>
         </div>
         <div className="lg:p-8">

@@ -308,7 +308,7 @@ export function ArtifactRenderer(props: ArtifactRendererProps) {
     <div className="relative w-full h-full max-h-screen overflow-auto">
       <div className="flex flex-row items-center justify-between">
         <div className="pl-[6px] pt-3 flex flex-col items-start justify-start ml-[6px] gap-1">
-          <h1 className="text-xl font-medium text-gray-600 ">
+          <h1 className="text-xl font-medium text-foreground/80">
             {currentArtifactContent.title}
           </h1>
           <span className="mt-auto">
@@ -325,7 +325,7 @@ export function ArtifactRenderer(props: ArtifactRendererProps) {
             )}
           </span>
         </div>
-        <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-3 text-gray-600">
+        <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-3 text-foreground/80">
           <TooltipIconButton
             tooltip="Previous"
             side="left"
@@ -341,7 +341,7 @@ export function ArtifactRenderer(props: ArtifactRendererProps) {
           >
             <Forward
               aria-disabled={isBackwardsDisabled}
-              className="w-6 h-6 text-gray-600 scale-x-[-1]"
+              className="w-6 h-6 text-foreground/80 scale-x-[-1]"
             />
           </TooltipIconButton>
           <div className="flex items-center justify-center gap-1">
@@ -364,7 +364,7 @@ export function ArtifactRenderer(props: ArtifactRendererProps) {
           >
             <Forward
               aria-disabled={isForwardDisabled}
-              className="w-6 h-6 text-gray-600"
+              className="w-6 h-6 text-foreground/80"
             />
           </TooltipIconButton>
         </div>
@@ -404,7 +404,7 @@ export function ArtifactRenderer(props: ArtifactRendererProps) {
               }
             }}
           >
-            <Copy className="w-6 h-6 text-gray-600" />
+            <Copy className="w-6 h-6 text-foreground/80" />
           </TooltipIconButton>
         </div>
       </div>
@@ -482,7 +482,7 @@ export function ArtifactRenderer(props: ArtifactRendererProps) {
               >
                 <Input
                   className="w-full transition-all duration-300 focus:ring-0 ease-in-out p-1 focus:outline-none border-0 focus-visible:ring-0"
-                  placeholder="Ask Open Canvas..."
+                  placeholder="Ask AdvisorX..."
                   autoFocus
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
@@ -507,7 +507,7 @@ export function ArtifactRenderer(props: ArtifactRendererProps) {
                 onClick={() => setIsInputVisible(true)}
                 className="transition-all duration-300 ease-in-out w-full"
               >
-                Ask Open Canvas
+                Ask AdvisorX
               </Button>
             )}
           </div>
@@ -537,7 +537,7 @@ export function ArtifactRenderer(props: ArtifactRendererProps) {
           }
           streamMessage={props.streamMessage}
         />
-      ) : null}
+      ) : null}      {/* ... (keep the rest of the component unchanged) */}
     </div>
   );
 }

@@ -116,7 +116,7 @@ export const ProgrammingLanguagesDropdown = ({
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="transition-colors text-gray-600 flex items-center justify-center gap-2 w-[250px] h-[64px]"
+          className="transition-colors text-foreground/80 flex items-center justify-center gap-2 w-[250px] h-[64px]"
         >
           New Code File
           <Code />
