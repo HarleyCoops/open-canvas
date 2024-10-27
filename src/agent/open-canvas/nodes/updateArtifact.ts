@@ -27,9 +27,17 @@ export const updateArtifact = async (
   const memoryNamespace = ["memories", assistantId];
   const memoryKey = "reflection";
   const memories = await store.get(memoryNamespace, memoryKey);
-  const memoriesAsString = memories?.value
-    ? formatReflections(memories.value as Reflections)
-    : "No reflections found.";
+
+  const reflections: Reflections = {
+    styleRules: Array.isArray(memories?.value?.styleRules)
+      ? memories.value.styleRules
+      : [],
+    content: Array.isArray(memories?.value?.content)
+      ? memories.value.content
+      : [],
+  };
+
+  const memoriesAsString = formatReflections(reflections);
 
   const currentArtifactContent = state.artifact
     ? getArtifactContent(state.artifact)
@@ -38,12 +46,12 @@ export const updateArtifact = async (
     throw new Error("No artifact found");
   }
   if (!isArtifactCodeContent(currentArtifactContent)) {
-    throw new Error("Current artifact content is not markdown");
+    throw new Error("Current artifact content is not code");
   }
 
   if (!state.highlightedCode) {
     throw new Error(
-      "Can not partially regenerate an artifact without a highlight"
+      "Cannot partially regenerate an artifact without a highlight"
     );
   }
 
@@ -57,15 +65,15 @@ export const updateArtifact = async (
   const beforeHighlight = currentArtifactContent.code.slice(
     start,
     state.highlightedCode.startCharIndex
-  ) as string;
+  );
   const highlightedText = currentArtifactContent.code.slice(
     state.highlightedCode.startCharIndex,
     state.highlightedCode.endCharIndex
-  ) as string;
+  );
   const afterHighlight = currentArtifactContent.code.slice(
     state.highlightedCode.endCharIndex,
     end
-  ) as string;
+  );
 
   const formattedPrompt = UPDATE_HIGHLIGHTED_ARTIFACT_PROMPT.replace(
     "{highlightedText}",

@@ -1,5 +1,8 @@
 import { ChatOpenAI } from "@langchain/openai";
-import { OpenCanvasGraphAnnotation, OpenCanvasGraphReturnType } from "../state";
+import {
+  OpenCanvasGraphAnnotation,
+  OpenCanvasGraphReturnType,
+} from "../state";
 import {
   CUSTOM_QUICK_ACTION_ARTIFACT_CONTENT_PROMPT,
   CUSTOM_QUICK_ACTION_ARTIFACT_PROMPT_PREFIX,
@@ -76,8 +79,29 @@ export const customAction = async (
     : undefined;
 
   let formattedPrompt = `<custom-instructions>\n${customQuickAction.prompt}\n</custom-instructions>`;
-  if (customQuickAction.includeReflections && memories?.value) {
-    const memoriesAsString = formatReflections(memories.value as Reflections);
+
+  if (customQuickAction.includeReflections) {
+    // Initialize reflections properly
+    const reflections: Reflections = {
+      styleRules: [],
+      content: [],
+    };
+
+    // Only try to use memories if they exist and have the correct shape
+    if (memories?.value && typeof memories.value === "object") {
+      if (memories.value.styleRules) {
+        reflections.styleRules = Array.isArray(memories.value.styleRules)
+          ? memories.value.styleRules
+          : [String(memories.value.styleRules)];
+      }
+      if (memories.value.content) {
+        reflections.content = Array.isArray(memories.value.content)
+          ? memories.value.content
+          : [String(memories.value.content)];
+      }
+    }
+
+    const memoriesAsString = formatReflections(reflections);
     const reflectionsPrompt = REFLECTIONS_QUICK_ACTION_PROMPT.replace(
       "{reflections}",
       memoriesAsString
@@ -101,7 +125,10 @@ export const customAction = async (
   const artifactContent = isArtifactMarkdownContent(currentArtifactContent)
     ? currentArtifactContent.fullMarkdown
     : currentArtifactContent?.code;
-  formattedPrompt += `\n\n${CUSTOM_QUICK_ACTION_ARTIFACT_CONTENT_PROMPT.replace("{artifactContent}", artifactContent || "No artifacts generated yet.")}`;
+  formattedPrompt += `\n\n${CUSTOM_QUICK_ACTION_ARTIFACT_CONTENT_PROMPT.replace(
+    "{artifactContent}",
+    artifactContent || "No artifacts generated yet."
+  )}`;
 
   const newArtifactValues = await smallModel.invoke([
     { role: "user", content: formattedPrompt },

@@ -42,9 +42,28 @@ export const rewriteArtifact = async (
   const memoryNamespace = ["memories", assistantId];
   const memoryKey = "reflection";
   const memories = await store.get(memoryNamespace, memoryKey);
-  const memoriesAsString = memories?.value
-    ? formatReflections(memories.value as Reflections)
-    : "No reflections found.";
+
+  // Initialize reflections properly
+  const reflections: Reflections = {
+    styleRules: [],
+    content: [],
+  };
+
+  // Only populate reflections if memories.value exists and has the correct shape
+  if (memories?.value && typeof memories.value === "object") {
+    if (memories.value.styleRules) {
+      reflections.styleRules = Array.isArray(memories.value.styleRules)
+        ? memories.value.styleRules
+        : [String(memories.value.styleRules)];
+    }
+    if (memories.value.content) {
+      reflections.content = Array.isArray(memories.value.content)
+        ? memories.value.content
+        : [String(memories.value.content)];
+    }
+  }
+
+  const memoriesAsString = formatReflections(reflections);
 
   const currentArtifactContent = state.artifact
     ? getArtifactContent(state.artifact)
@@ -79,7 +98,7 @@ export const rewriteArtifact = async (
       .enum(
         PROGRAMMING_LANGUAGES.map((lang) => lang.language) as [
           string,
-          ...string[],
+          ...string[]
         ]
       )
       .optional()
@@ -102,7 +121,8 @@ export const rewriteArtifact = async (
       { role: "system", content: optionallyUpdateArtifactMetaPrompt },
       recentHumanMessage,
     ]);
-  const artifactMetaToolCall = optionallyUpdateArtifactResponse.tool_calls?.[0];
+  const artifactMetaToolCall =
+    optionallyUpdateArtifactResponse.tool_calls?.[0];
   const artifactType = artifactMetaToolCall?.args?.type;
   const isNewType = artifactType !== currentArtifactContent.type;
 
@@ -145,7 +165,8 @@ export const rewriteArtifact = async (
     newArtifactContent = {
       index: state.artifact.contents.length + 1,
       type: "code",
-      title: artifactMetaToolCall?.args?.title || currentArtifactContent.title,
+      title:
+        artifactMetaToolCall?.args?.title || currentArtifactContent.title,
       language:
         artifactMetaToolCall?.args?.programmingLanguage ||
         (isArtifactCodeContent(currentArtifactContent)
@@ -157,7 +178,8 @@ export const rewriteArtifact = async (
     newArtifactContent = {
       index: state.artifact.contents.length + 1,
       type: "text",
-      title: artifactMetaToolCall?.args?.title || currentArtifactContent.title,
+      title:
+        artifactMetaToolCall?.args?.title || currentArtifactContent.title,
       fullMarkdown: newArtifactResponse.content as string,
     };
   }

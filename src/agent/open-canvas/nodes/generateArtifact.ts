@@ -9,7 +9,7 @@ import {
   Reflections,
 } from "../../../types";
 import { z } from "zod";
-import { ensureStoreInConfig, formatReflections } from "../../utils";
+import { ensureStoreInConfig, formatReflections } from "../../../agent/utils";
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
 
 /**
@@ -31,10 +31,20 @@ export const generateArtifact = async (
   }
   const memoryNamespace = ["memories", assistantId];
   const memoryKey = "reflection";
-  const memories = await store.get(memoryNamespace, memoryKey);
-  const memoriesAsString = memories?.value
-    ? formatReflections(memories.value as Reflections)
-    : "No reflections found.";
+
+  // Reset/clear the stored reflections
+  await store.delete(memoryNamespace, memoryKey);
+  
+  // Create a fresh reflection object
+  const freshReflections: Reflections = {
+    styleRules: [],
+    content: []
+  };
+  
+  // Store the fresh reflections
+  await store.put(memoryNamespace, memoryKey, freshReflections);
+
+  const memoriesAsString = formatReflections(freshReflections);
 
   const modelWithArtifactTool = smallModel.bindTools(
     [
@@ -48,7 +58,7 @@ export const generateArtifact = async (
             .enum(
               PROGRAMMING_LANGUAGES.map((lang) => lang.language) as [
                 string,
-                ...string[],
+                ...string[]
               ]
             )
             .optional()

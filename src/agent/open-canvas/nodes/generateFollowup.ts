@@ -28,11 +28,30 @@ export const generateFollowup = async (
   const memoryNamespace = ["memories", assistantId];
   const memoryKey = "reflection";
   const memories = await store.get(memoryNamespace, memoryKey);
-  const memoriesAsString = memories?.value
-    ? formatReflections(memories.value as Reflections, {
-        onlyContent: true,
-      })
-    : "No reflections found.";
+
+  // Initialize reflections properly
+  const reflections: Reflections = {
+    styleRules: [],
+    content: [],
+  };
+
+  // Only populate reflections if memories.value exists and has the correct shape
+  if (memories?.value && typeof memories.value === "object") {
+    if (memories.value.styleRules) {
+      reflections.styleRules = Array.isArray(memories.value.styleRules)
+        ? memories.value.styleRules
+        : [String(memories.value.styleRules)];
+    }
+    if (memories.value.content) {
+      reflections.content = Array.isArray(memories.value.content)
+        ? memories.value.content
+        : [String(memories.value.content)];
+    }
+  }
+
+  const memoriesAsString = formatReflections(reflections, {
+    onlyContent: true,
+  });
 
   const currentArtifactContent = state.artifact
     ? getArtifactContent(state.artifact)

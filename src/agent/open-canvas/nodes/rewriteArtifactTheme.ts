@@ -30,9 +30,17 @@ export const rewriteArtifactTheme = async (
   const memoryNamespace = ["memories", assistantId];
   const memoryKey = "reflection";
   const memories = await store.get(memoryNamespace, memoryKey);
-  const memoriesAsString = memories?.value
-    ? formatReflections(memories.value as Reflections)
-    : "No reflections found.";
+
+  const reflections: Reflections = {
+    styleRules: Array.isArray(memories?.value?.styleRules)
+      ? memories.value.styleRules
+      : [],
+    content: Array.isArray(memories?.value?.content)
+      ? memories.value.content
+      : [],
+  };
+
+  const memoriesAsString = formatReflections(reflections);
 
   const currentArtifactContent = state.artifact
     ? getArtifactContent(state.artifact)
