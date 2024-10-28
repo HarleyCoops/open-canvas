@@ -124,7 +124,7 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
             className="transition-colors text-foreground/80 flex items-center justify-center gap-2 w-[250px] h-[64px]"
             onClick={() => props.handleQuickStart("text")}
           >
-            New Markdown
+            New Client Newsletter
             <NotebookPen />
           </Button>
           <ProgrammingLanguagesDropdown handleSubmit={handleLanguageSubmit} />
@@ -241,8 +241,8 @@ const ThreadWelcome: FC<ThreadWelcomeProps> = (props: ThreadWelcomeProps) => {
       <div className="flex items-center justify-center mt-16 w-full">
         <div className="text-center max-w-3xl w-full">
           <Avatar className="mx-auto">
-            <AvatarImage src="/lc_logo.jpg" alt="LangChain Logo" />
-            <AvatarFallback>LC</AvatarFallback>
+            <AvatarImage src="/lc_logo.jpg" alt="AdvisorX Logo" />
+            <AvatarFallback>AdvisorX</AvatarFallback>
           </Avatar>
           <p className="mt-4 text-lg font-medium">
             What can AdvisorX AI help you write today?
@@ -264,9 +264,9 @@ const Composer: FC = () => {
     <ComposerPrimitive.Root className="focus-within:border-aui-ring/20 flex w-full min-h-[64px] flex-wrap items-center rounded-lg border px-2.5 shadow-sm transition-colors ease-in bg-white">
       <ComposerPrimitive.Input
         autoFocus
-        placeholder="Write a message..."
+        placeholder="How Can AdvisorX transform your business today?"
         rows={1}
-        className="placeholder:text-muted-foreground max-h-40 flex-grow resize-none border-none bg-transparent px-2 py-4 text-sm outline-none focus:ring-0 disabled:cursor-not-allowed"
+        className="placeholder:text-muted-foreground max-h-40 flex-grow resize-none border-none bg-transparent px-2 py-4 text-sm outline-none focus:ring-0 disabled:cursor-not-allowed text-black"
       />
       <ThreadPrimitive.If running={false}>
         <ComposerPrimitive.Send asChild>
@@ -347,7 +347,8 @@ const AssistantMessage: FC = () => {
   return (
     <MessagePrimitive.Root className="relative grid w-full max-w-2xl grid-cols-[auto_auto_1fr] grid-rows-[auto_1fr] py-4">
       <Avatar className="col-start-1 row-span-full row-start-1 mr-4">
-        <AvatarFallback>A</AvatarFallback>
+        <AvatarImage src="/lc_logo.jpg" alt="AdvisorX Logo" />
+        <AvatarFallback>aX</AvatarFallback>
       </Avatar>
 
       <div className="text-foreground col-span-2 col-start-2 row-start-1 my-1.5 max-w-xl break-words leading-7">
