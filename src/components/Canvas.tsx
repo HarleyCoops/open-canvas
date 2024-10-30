@@ -73,11 +73,16 @@ export function Canvas(props: CanvasProps) {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    console.log('Initial load - threadId:', threadId);
+    console.log('Initial load - assistantId:', assistantId);
+
     if (!threadId) {
+      console.log('No threadId, creating new thread...');
       searchOrCreateThread(props.user.id);
     }
 
     if (!assistantId) {
+      console.log('No assistantId, creating new assistant...');
       getOrCreateAssistant();
     }
   }, []);
