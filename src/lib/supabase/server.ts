@@ -9,7 +9,7 @@ export function createClient() {
     throw new Error("NEXT_PUBLIC_SUPABASE_ANON_KEY is not defined");
   }
 
-  const cookieStore = cookies();
+  const cookieStore = cookies() as any;
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
